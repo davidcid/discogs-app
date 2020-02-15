@@ -1,12 +1,14 @@
 import React from "react";
 import "./App.css";
 import { Button } from "antd";
-import Menu from "./components/Menu";
+import MenuComponent from "./components/MenuComponent";
+import AlbumsContainer from "./components/AlbumsContainer";
 
 const App = () => (
   <div className="App">
-    <Menu />
+    <MenuComponent />
     <Button type="danger">Button</Button>
+    <AlbumsContainer />
   </div>
 );
 
