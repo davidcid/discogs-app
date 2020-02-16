@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import Discojs from "discojs";
-import { Card } from "antd";
+import CardList from "./components/CardList";
 import SearchBox from "./components/SearchBox";
 
 class App extends Component {
@@ -51,13 +51,7 @@ class App extends Component {
       return (
         <div className="App">
           <SearchBox searchChange={this.onSearchChange} />
-          {filteredItems.map(item => (
-            <Card title={item.title} style={{ width: 300 }} key={item.id}>
-              <p>{item.year}</p>
-              <p>{item.country}</p>
-              <img src={item.thumb} alt="" />
-            </Card>
-          ))}
+          <CardList items={items} />
         </div>
       );
     }
