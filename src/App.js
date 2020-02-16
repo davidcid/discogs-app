@@ -10,15 +10,20 @@ class App extends Component {
     this.state = {
       items: [],
       isLoaded: false,
-      searchfield: ""
+      searchfield: "",
+      USER_TOKEN: "fvXFPOrRSVzEqLNkSWgvrGiRlLuCmEFQJQQVBKaN",
+      USER_KEY: "WwaXPmpRocIYWMWsQSxb",
+      USER_SECRET: "AIjlNGAEjBHzqEBfKOgMqkBjCpCCbTIw",
+      USER_AGENT: "discogs-app/0.0.1"
     };
   }
 
   componentDidMount() {
-    const USER_TOKEN = "fvXFPOrRSVzEqLNkSWgvrGiRlLuCmEFQJQQVBKaN";
-    const USER_KEY = "WwaXPmpRocIYWMWsQSxb";
-    const USER_SECRET = "AIjlNGAEjBHzqEBfKOgMqkBjCpCCbTIw";
-    const USER_AGENT = "discogs-app/0.0.1";
+    this.onSearch(this.state.searchfield);
+  }
+
+  onSearch = event => {
+    const { USER_TOKEN, USER_KEY, USER_SECRET, USER_AGENT } = this.state;
 
     const client = new Discojs({
       userAgent: USER_AGENT,
@@ -27,16 +32,12 @@ class App extends Component {
       consumerSecret: USER_SECRET
     });
 
-    client.searchRelease("green day").then(res => {
+    client.searchRelease(event).then(res => {
       this.setState({
         isLoaded: true,
         items: res.results
       });
     });
-  }
-
-  onSearchChange = event => {
-    this.setState({ searchfield: event.target.value });
   };
 
   render() {
@@ -50,8 +51,8 @@ class App extends Component {
     } else {
       return (
         <div className="App">
-          <SearchBox searchChange={this.onSearchChange} />
-          <CardList items={items} />
+          <SearchBox onSearch={this.onSearch} />
+          <CardList items={filteredItems} />
         </div>
       );
     }
