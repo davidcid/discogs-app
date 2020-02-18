@@ -22,7 +22,12 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log("componentDidMount");
     this.onSearch(this.state.searchfield);
+  }
+
+  componentDidUpdate() {
+    console.log("actualizando...");
   }
 
   onSearch = event => {
@@ -37,7 +42,7 @@ class App extends Component {
 
     const paginationOpt = {
       page,
-      perPage: 10
+      perPage: 6
     };
 
     client.searchRelease(event, null, paginationOpt).then(res => {
@@ -45,18 +50,21 @@ class App extends Component {
         isLoaded: true,
         items: res.results,
         totalPages: res.pagination.pages,
-        page: res.pagination.page
+        page: res.pagination.page,
+        searchfield: event
       });
     });
   };
 
   onPageChange = page => {
     this.setState({ page });
-    console.log(this.state.page + " " + page);
+    console.log(`state: ${this.state.page}, page clicked: ${page}`);
+    console.log(this.state.searchfield);
     this.onSearch(this.state.searchfield);
   };
 
   render() {
+    console.log("render");
     const { isLoaded, items, searchfield, page, totalPages } = this.state;
     const filteredItems = items.filter(item => {
       return item.title.toLowerCase().includes(searchfield.toLowerCase());
@@ -68,12 +76,12 @@ class App extends Component {
       return (
         <div className="App">
           <SearchBox onSearch={this.onSearch} />
-          <CardList items={filteredItems} />
           <Pages
             page={page}
             totalPages={totalPages}
             onPageChange={this.onPageChange}
           />
+          <CardList items={filteredItems} />
         </div>
       );
     }
