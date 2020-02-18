@@ -22,16 +22,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount");
     this.onSearch(this.state.searchfield, 1);
   }
 
-  componentDidUpdate() {
-    console.log("actualizando...");
-  }
-
-  onSearch = (searchString, newPage) => {
-    const { USER_TOKEN, USER_KEY, USER_SECRET, USER_AGENT, page } = this.state;
+  onSearch = (searchString, page) => {
+    const { USER_TOKEN, USER_KEY, USER_SECRET, USER_AGENT } = this.state;
 
     const client = new Discojs({
       userAgent: USER_AGENT,
@@ -41,7 +36,7 @@ class App extends Component {
     });
 
     const paginationOpt = {
-      page: newPage,
+      page: page,
       perPage: 6
     };
 
@@ -50,20 +45,21 @@ class App extends Component {
         isLoaded: true,
         items: res.results,
         totalPages: res.pagination.pages,
-        page: newPage,
+        page: page,
         searchfield: searchString
       });
     });
   };
 
   onPageChange = newPage => {
-    console.log(`state: ${this.state.page}, page clicked: ${newPage}`);
-    console.log(this.state.searchfield);
     this.onSearch(this.state.searchfield, newPage);
   };
 
+  onSearchBox = event => {
+    this.onSearch(event, 1);
+  };
+
   render() {
-    console.log("render");
     const { isLoaded, items, searchfield, page, totalPages } = this.state;
     const filteredItems = items.filter(item => {
       return item.title.toLowerCase().includes(searchfield.toLowerCase());
@@ -74,7 +70,7 @@ class App extends Component {
     } else {
       return (
         <div className="App">
-          <SearchBox onSearch={this.onSearch} />
+          <SearchBox onSearch={this.onSearchBox} />
           <Pages
             page={page}
             totalPages={totalPages}

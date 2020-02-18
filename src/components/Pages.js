@@ -9,7 +9,6 @@ const Pages = ({ page, totalPages, onPageChange }) => {
         total={totalPages}
         onChange={onPageChange}
       />
-      <div>{page}</div>
     </div>
   );
 };
