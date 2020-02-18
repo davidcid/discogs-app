@@ -23,14 +23,14 @@ class App extends Component {
 
   componentDidMount() {
     console.log("componentDidMount");
-    this.onSearch(this.state.searchfield);
+    this.onSearch(this.state.searchfield, 1);
   }
 
   componentDidUpdate() {
     console.log("actualizando...");
   }
 
-  onSearch = event => {
+  onSearch = (searchString, newPage) => {
     const { USER_TOKEN, USER_KEY, USER_SECRET, USER_AGENT, page } = this.state;
 
     const client = new Discojs({
@@ -41,26 +41,25 @@ class App extends Component {
     });
 
     const paginationOpt = {
-      page,
+      page: newPage,
       perPage: 6
     };
 
-    client.searchRelease(event, null, paginationOpt).then(res => {
+    client.searchRelease(searchString, null, paginationOpt).then(res => {
       this.setState({
         isLoaded: true,
         items: res.results,
         totalPages: res.pagination.pages,
-        page: res.pagination.page,
-        searchfield: event
+        page: newPage,
+        searchfield: searchString
       });
     });
   };
 
-  onPageChange = page => {
-    this.setState({ page });
-    console.log(`state: ${this.state.page}, page clicked: ${page}`);
+  onPageChange = newPage => {
+    console.log(`state: ${this.state.page}, page clicked: ${newPage}`);
     console.log(this.state.searchfield);
-    this.onSearch(this.state.searchfield);
+    this.onSearch(this.state.searchfield, newPage);
   };
 
   render() {
