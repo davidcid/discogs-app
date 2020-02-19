@@ -24,13 +24,17 @@ class ShowDetail extends React.Component {
     this.setState({ visible: false });
   };
 
+  searchTest = () => {
+    this.props.client.getArtist(this.props.id).then(res => console.log(res));
+  };
+
   render() {
     const { visible, loading } = this.state;
     return (
       <div>
         <Button
           type="primary"
-          onClick={this.showModal}
+          onClick={(this.showModal, this.searchTest)}
           style={{ marginTop: 25 }}
         >
           View Detail
