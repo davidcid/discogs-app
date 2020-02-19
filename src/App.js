@@ -22,10 +22,12 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log("componentDidMount");
     this.onSearch(this.state.searchfield, 1);
   }
 
   onSearch = (searchString, page) => {
+    console.log("onSearh");
     const { USER_TOKEN, USER_KEY, USER_SECRET, USER_AGENT } = this.state;
 
     const client = new Discojs({
@@ -53,7 +55,6 @@ class App extends Component {
 
   onPageChange = newPage => {
     this.onSearch(this.state.searchfield, newPage);
-    console.log("newPage: " + newPage + ", state-page: " + this.state.page);
   };
 
   onSearchBox = event => {
@@ -61,6 +62,8 @@ class App extends Component {
   };
 
   render() {
+    console.log("render App");
+    console.log("page state on app: " + this.state.page);
     const { isLoaded, items, searchfield, page, totalPages } = this.state;
     const filteredItems = items.filter(item => {
       return item.title.toLowerCase().includes(searchfield.toLowerCase());
@@ -73,11 +76,7 @@ class App extends Component {
           totalPages={totalPages}
           onPageChange={this.onPageChange}
         />
-        {isLoaded ? (
-          <CardList items={filteredItems} />
-        ) : (
-          <div>"Loading..."</div>
-        )}
+        {isLoaded ? <CardList items={filteredItems} /> : <div>Loading...</div>}
       </div>
     );
   }

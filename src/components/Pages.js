@@ -1,16 +1,18 @@
-import React from "react";
+import React, { Component } from "react";
 import { Pagination } from "antd";
 
-const Pages = ({ page, totalPages, onPageChange }) => {
-  return (
-    <div style={{ margin: 20 }}>
-      <Pagination
-        defaultCurrent={page}
-        total={totalPages}
-        onChange={onPageChange}
-      />
-    </div>
-  );
-};
+class Pages extends Component {
+  render() {
+    return (
+      <div style={{ margin: 20 }}>
+        <Pagination
+          current={this.props.page}
+          total={this.props.totalPages}
+          onChange={this.props.onPageChange}
+        />
+      </div>
+    );
+  }
+}
 
 export default Pages;
