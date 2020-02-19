@@ -40,18 +40,20 @@ class App extends Component {
 
     const paginationOpt = {
       page: page,
-      perPage: 6
+      perPage: 26
     };
 
-    client.searchArtist(searchString, null, paginationOpt).then(res => {
-      this.setState({
-        isLoaded: true,
-        items: res.results,
-        totalPages: res.pagination.pages,
-        page: page,
-        searchfield: searchString
+    client
+      .searchDatabase({ type: "artist", query: searchString }, paginationOpt)
+      .then(res => {
+        this.setState({
+          isLoaded: true,
+          items: res.results,
+          totalPages: res.pagination.pages,
+          page: page,
+          searchfield: searchString
+        });
       });
-    });
   };
 
   onPageChange = newPage => {

@@ -4,10 +4,13 @@ import { Modal, Button } from "antd";
 class ShowDetail extends React.Component {
   state = {
     loading: false,
-    visible: false
+    visible: false,
+    item: {},
+    isLoaded: false
   };
 
   showModal = () => {
+    this.searchTest();
     this.setState({
       visible: true
     });
@@ -21,27 +24,36 @@ class ShowDetail extends React.Component {
   };
 
   handleCancel = () => {
-    this.setState({ visible: false });
+    this.setState({ visible: false, isLoaded: false });
   };
 
   searchTest = () => {
-    this.props.client.getArtist(this.props.id).then(res => console.log(res));
+    this.props.client
+      .getArtist(this.props.id)
+      .then(res => {
+        this.setState({
+          item: res
+        });
+        console.log(res);
+      })
+      .then(this.setState({ isLoaded: true }));
   };
 
   render() {
-    const { visible, loading } = this.state;
+    const { visible, loading, item, isLoaded } = this.state;
     return (
       <div>
         <Button
           type="primary"
-          onClick={(this.showModal, this.searchTest)}
+          onClick={this.showModal}
           style={{ marginTop: 25 }}
         >
           View Detail
         </Button>
+
         <Modal
           visible={visible}
-          title="Title"
+          title={item.name}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
@@ -58,11 +70,17 @@ class ShowDetail extends React.Component {
             </Button>
           ]}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          {isLoaded ? (
+            <div className="content">
+              <h4>Profile:</h4>
+              <p>{item.profile}</p>
+
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+            </div>
+          ) : (
+            <div>Loading...</div>
+          )}
         </Modal>
       </div>
     );
