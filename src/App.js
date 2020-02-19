@@ -3,6 +3,7 @@ import "./App.css";
 import Discojs from "discojs";
 import CardList from "./components/CardList";
 import SearchBox from "./components/SearchBox";
+import Pages from "./components/Pages";
 
 class App extends Component {
   constructor(props) {
@@ -14,15 +15,19 @@ class App extends Component {
       USER_TOKEN: "fvXFPOrRSVzEqLNkSWgvrGiRlLuCmEFQJQQVBKaN",
       USER_KEY: "WwaXPmpRocIYWMWsQSxb",
       USER_SECRET: "AIjlNGAEjBHzqEBfKOgMqkBjCpCCbTIw",
-      USER_AGENT: "discogs-app/0.0.1"
+      USER_AGENT: "discogs-app/0.0.1",
+      page: 1,
+      totalPages: 0
     };
   }
 
   componentDidMount() {
-    this.onSearch(this.state.searchfield);
+    console.log("componentDidMount");
+    this.onSearch(this.state.searchfield, 1);
   }
 
-  onSearch = event => {
+  onSearch = (searchString, page) => {
+    console.log("onSearh");
     const { USER_TOKEN, USER_KEY, USER_SECRET, USER_AGENT } = this.state;
 
     const client = new Discojs({
@@ -32,30 +37,48 @@ class App extends Component {
       consumerSecret: USER_SECRET
     });
 
-    client.searchRelease(event).then(res => {
+    const paginationOpt = {
+      page: page,
+      perPage: 6
+    };
+
+    client.searchRelease(searchString, null, paginationOpt).then(res => {
       this.setState({
         isLoaded: true,
-        items: res.results
+        items: res.results,
+        totalPages: res.pagination.pages,
+        page: page,
+        searchfield: searchString
       });
     });
   };
 
+  onPageChange = newPage => {
+    this.onSearch(this.state.searchfield, newPage);
+  };
+
+  onSearchBox = event => {
+    this.onSearch(event, 1);
+  };
+
   render() {
-    const { isLoaded, items, searchfield } = this.state;
+    console.log("render App");
+    console.log("page state on app: " + this.state.page);
+    const { isLoaded, items, searchfield, page, totalPages } = this.state;
     const filteredItems = items.filter(item => {
       return item.title.toLowerCase().includes(searchfield.toLowerCase());
     });
-
-    if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-        <div className="App">
-          <SearchBox onSearch={this.onSearch} />
-          <CardList items={filteredItems} />
-        </div>
-      );
-    }
+    return (
+      <div className="App">
+        <SearchBox onSearch={this.onSearchBox} />
+        <Pages
+          page={page}
+          totalPages={totalPages}
+          onPageChange={this.onPageChange}
+        />
+        {isLoaded ? <CardList items={filteredItems} /> : <div>Loading...</div>}
+      </div>
+    );
   }
 }
 
