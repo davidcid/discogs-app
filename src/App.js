@@ -53,6 +53,7 @@ class App extends Component {
 
   onPageChange = newPage => {
     this.onSearch(this.state.searchfield, newPage);
+    console.log("newPage: " + newPage + ", state-page: " + this.state.page);
   };
 
   onSearchBox = event => {
@@ -64,22 +65,21 @@ class App extends Component {
     const filteredItems = items.filter(item => {
       return item.title.toLowerCase().includes(searchfield.toLowerCase());
     });
-
-    if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-        <div className="App">
-          <SearchBox onSearch={this.onSearchBox} />
-          <Pages
-            page={page}
-            totalPages={totalPages}
-            onPageChange={this.onPageChange}
-          />
+    return (
+      <div className="App">
+        <SearchBox onSearch={this.onSearchBox} />
+        <Pages
+          page={page}
+          totalPages={totalPages}
+          onPageChange={this.onPageChange}
+        />
+        {isLoaded ? (
           <CardList items={filteredItems} />
-        </div>
-      );
-    }
+        ) : (
+          <div>"Loading..."</div>
+        )}
+      </div>
+    );
   }
 }
 
