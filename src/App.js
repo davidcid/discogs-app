@@ -4,6 +4,7 @@ import Discojs from "discojs";
 import CardList from "./components/CardList";
 import SearchBox from "./components/SearchBox";
 import Pages from "./components/Pages";
+import ShowDetail from "./components/ShowDetail";
 
 class App extends Component {
   constructor(props) {
@@ -63,7 +64,6 @@ class App extends Component {
 
   render() {
     console.log("render App");
-    console.log("page state on app: " + this.state.page);
     const { isLoaded, items, searchfield, page, totalPages } = this.state;
     const filteredItems = items.filter(item => {
       return item.title.toLowerCase().includes(searchfield.toLowerCase());
