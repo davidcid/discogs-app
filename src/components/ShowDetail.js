@@ -32,11 +32,14 @@ class ShowDetail extends React.Component {
       .getArtist(this.props.id)
       .then(res => {
         this.setState({
-          item: res
+          item: res,
+          isLoaded: true
         });
         console.log(res);
       })
-      .then(this.setState({ isLoaded: true }));
+      .then(() => {
+        console.log(this.state.item.images[0].uri);
+      });
   };
 
   render() {
@@ -72,14 +75,16 @@ class ShowDetail extends React.Component {
         >
           {isLoaded ? (
             <div className="content">
+              <img src={item.images[0].uri} alt="" style={{ width: 150 }} />
               <h4>Profile:</h4>
               <p>{item.profile}</p>
-
               <p>Some contents...</p>
               <p>Some contents...</p>
             </div>
           ) : (
-            <div>Loading...</div>
+            <div className="content">
+              <p>Loading...</p>
+            </div>
           )}
         </Modal>
       </div>
