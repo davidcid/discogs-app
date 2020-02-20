@@ -1,5 +1,7 @@
 import React from "react";
 import { Modal, Button } from "antd";
+import { Carousel } from "antd";
+import "./ShowDetail.css";
 
 class ShowDetail extends React.Component {
   state = {
@@ -75,11 +77,36 @@ class ShowDetail extends React.Component {
         >
           {isLoaded ? (
             <div className="content">
-              <img src={item.images[0].uri} alt="" style={{ width: 150 }} />
+              <Carousel autoplay>
+                {item.images.map(image => {
+                  return (
+                    <div key={item.id}>
+                      <img
+                        className="artist-image"
+                        src={image.uri}
+                        alt=""
+                      ></img>
+                    </div>
+                  );
+                })}
+              </Carousel>
+
+              <h4>Real name: </h4>
+              <p>{item.realname}</p>
               <h4>Profile:</h4>
               <p>{item.profile}</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
+              <h4>More Information:</h4>
+              <ul>
+                {item.urls.map(url => {
+                  return (
+                    <li key={item.id}>
+                      <a href={url} target="_blank" rel="noopener noreferrer">
+                        {url}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           ) : (
             <div className="content">
