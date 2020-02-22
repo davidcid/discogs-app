@@ -9,7 +9,7 @@ const SearchBox = ({ onSearch }) => {
       <Search
         placeholder="search by artist, album or both"
         onSearch={onSearch}
-        style={{ width: 400 }}
+        style={{ maxWidth: 400 }}
       />
     </div>
   );

@@ -5,6 +5,18 @@ import CardList from "./components/CardList";
 import SearchBox from "./components/SearchBox";
 import Pages from "./components/Pages";
 
+const USER_TOKEN = "fvXFPOrRSVzEqLNkSWgvrGiRlLuCmEFQJQQVBKaN";
+const USER_KEY = "WwaXPmpRocIYWMWsQSxb";
+const USER_SECRET = "AIjlNGAEjBHzqEBfKOgMqkBjCpCCbTIw";
+const USER_AGENT = "discogs-app/0.0.1";
+
+const client = new Discojs({
+  userAgent: USER_AGENT,
+  userToken: USER_TOKEN,
+  consumerKey: USER_KEY,
+  consumerSecret: USER_SECRET
+});
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -12,12 +24,9 @@ class App extends Component {
       items: [],
       isLoaded: false,
       searchfield: "",
-      USER_TOKEN: "fvXFPOrRSVzEqLNkSWgvrGiRlLuCmEFQJQQVBKaN",
-      USER_KEY: "WwaXPmpRocIYWMWsQSxb",
-      USER_SECRET: "AIjlNGAEjBHzqEBfKOgMqkBjCpCCbTIw",
-      USER_AGENT: "discogs-app/0.0.1",
       page: 1,
-      totalPages: 0
+      totalPages: 0,
+      client: client
     };
   }
 
@@ -28,29 +37,23 @@ class App extends Component {
 
   onSearch = (searchString, page) => {
     console.log("onSearh");
-    const { USER_TOKEN, USER_KEY, USER_SECRET, USER_AGENT } = this.state;
-
-    const client = new Discojs({
-      userAgent: USER_AGENT,
-      userToken: USER_TOKEN,
-      consumerKey: USER_KEY,
-      consumerSecret: USER_SECRET
-    });
 
     const paginationOpt = {
       page: page,
-      perPage: 6
+      perPage: 26
     };
 
-    client.searchRelease(searchString, null, paginationOpt).then(res => {
-      this.setState({
-        isLoaded: true,
-        items: res.results,
-        totalPages: res.pagination.pages,
-        page: page,
-        searchfield: searchString
+    client
+      .searchDatabase({ type: "artist", query: searchString }, paginationOpt)
+      .then(res => {
+        this.setState({
+          isLoaded: true,
+          items: res.results,
+          totalPages: res.pagination.pages,
+          page: page,
+          searchfield: searchString
+        });
       });
-    });
   };
 
   onPageChange = newPage => {
@@ -63,8 +66,14 @@ class App extends Component {
 
   render() {
     console.log("render App");
-    console.log("page state on app: " + this.state.page);
-    const { isLoaded, items, searchfield, page, totalPages } = this.state;
+    const {
+      isLoaded,
+      items,
+      searchfield,
+      page,
+      totalPages,
+      client
+    } = this.state;
     const filteredItems = items.filter(item => {
       return item.title.toLowerCase().includes(searchfield.toLowerCase());
     });
@@ -76,7 +85,16 @@ class App extends Component {
           totalPages={totalPages}
           onPageChange={this.onPageChange}
         />
-        {isLoaded ? <CardList items={filteredItems} /> : <div>Loading...</div>}
+        {isLoaded ? (
+          <CardList items={filteredItems} client={client} />
+        ) : (
+          <div>Loading...</div>
+        )}
+        <Pages
+          page={page}
+          totalPages={totalPages}
+          onPageChange={this.onPageChange}
+        />
       </div>
     );
   }

@@ -2,7 +2,7 @@ import React from "react";
 import CardItem from "./CardItem";
 import "./CardList.css";
 
-const CardList = ({ items }) => {
+const CardList = ({ items, client }) => {
   return (
     <div className="cardlist">
       {items.map((item, i) => {
@@ -14,6 +14,8 @@ const CardList = ({ items }) => {
             year={items[i].year}
             country={items[i].country}
             thumb={items[i].thumb}
+            client={client}
+            id={items[i].id}
           />
         );
       })}
