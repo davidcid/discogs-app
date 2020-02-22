@@ -10,16 +10,13 @@ const CardItem = ({ title, thumb, client, id }) => {
   return (
     <div className="card">
       <Card
-        hoverable
+        hoverable={true}
         title={title}
         style={{
           width: 240,
           margin: 15,
-          backgroundColor: "#141414",
-          border: 0,
           borderRadius: 8
         }}
-        headStyle={{ color: "white", border: 0 }}
         onClick={handleClick}
       >
         <img src={thumb} alt="" />
