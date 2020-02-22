@@ -5,7 +5,6 @@ import "./ShowDetail.css";
 
 class ShowDetail extends React.Component {
   state = {
-    loading: false,
     visible: false,
     item: {},
     isLoaded: false
@@ -16,13 +15,6 @@ class ShowDetail extends React.Component {
     this.setState({
       visible: true
     });
-  };
-
-  handleOk = () => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 3000);
   };
 
   handleCancel = () => {
@@ -65,12 +57,7 @@ class ShowDetail extends React.Component {
             <Button key="back" onClick={this.handleCancel}>
               Return
             </Button>,
-            <Button
-              key="submit"
-              type="primary"
-              loading={loading}
-              onClick={this.handleOk}
-            >
+            <Button key="submit" type="primary" loading={loading}>
               Submit
             </Button>
           ]}

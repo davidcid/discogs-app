@@ -90,6 +90,11 @@ class App extends Component {
         ) : (
           <div>Loading...</div>
         )}
+        <Pages
+          page={page}
+          totalPages={totalPages}
+          onPageChange={this.onPageChange}
+        />
       </div>
     );
   }
