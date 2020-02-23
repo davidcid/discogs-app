@@ -19,7 +19,7 @@ const CardItem = ({ title, thumb, client, id }) => {
         }}
         onClick={handleClick}
       >
-        <img src={thumb} alt="" />
+        <img src={thumb} alt={title} />
         <ShowDetail client={client} id={id} />
       </Card>
     </div>

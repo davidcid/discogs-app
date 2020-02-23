@@ -4,6 +4,7 @@ import Discojs from "discojs";
 import CardList from "./components/CardList";
 import SearchBox from "./components/SearchBox";
 import Pages from "./components/Pages";
+import Selector from "./components/Selector";
 
 const USER_TOKEN = "fvXFPOrRSVzEqLNkSWgvrGiRlLuCmEFQJQQVBKaN";
 const USER_KEY = "WwaXPmpRocIYWMWsQSxb";
@@ -26,67 +27,71 @@ class App extends Component {
       searchfield: "",
       page: 1,
       totalPages: 0,
-      client: client
+      client: client, // required by Discojs
+      searchType: "artist"
     };
   }
 
   componentDidMount() {
-    console.log("componentDidMount");
-    this.onSearch(this.state.searchfield, 1);
+    this.onSearch(this.state.type, this.state.searchfield, 1);
   }
 
-  onSearch = (searchString, page) => {
-    console.log("onSearh");
+  // Call the database and throw an error if fails
+  onSearch = (type, searchString, page) => {
+    this.setState({ isLoaded: false });
 
     const paginationOpt = {
       page: page,
-      perPage: 26
+      perPage: 24
     };
 
     client
-      .searchDatabase({ type: "artist", query: searchString }, paginationOpt)
+      .searchDatabase({ type: type, query: searchString }, paginationOpt)
       .then(res => {
         this.setState({
           isLoaded: true,
           items: res.results,
           totalPages: res.pagination.pages,
           page: page,
-          searchfield: searchString
+          searchfield: searchString,
+          searchType: type
         });
+      })
+      .catch(error => {
+        console.log("There was an error with the request: " + error.message);
       });
   };
 
   onPageChange = newPage => {
-    this.onSearch(this.state.searchfield, newPage);
+    this.onSearch(this.state.type, this.state.searchfield, newPage);
+    console.log(this.state.searchType);
   };
 
-  onSearchBox = event => {
-    this.onSearch(event, 1);
+  onSearchBox = newSearch => {
+    this.onSearch(this.state.searchType, newSearch, 1);
+  };
+
+  onSelectorChange = newType => {
+    this.onSearch(newType, this.state.searchfield, 1);
   };
 
   render() {
-    console.log("render App");
-    const {
-      isLoaded,
-      items,
-      searchfield,
-      page,
-      totalPages,
-      client
-    } = this.state;
-    const filteredItems = items.filter(item => {
-      return item.title.toLowerCase().includes(searchfield.toLowerCase());
-    });
+    const { isLoaded, items, page, totalPages, client } = this.state;
+
     return (
       <div className="App">
         <SearchBox onSearch={this.onSearchBox} />
+        <Selector
+          onChange={this.onSelectorChange}
+          type={this.state.searchType}
+        />
         <Pages
           page={page}
           totalPages={totalPages}
           onPageChange={this.onPageChange}
         />
         {isLoaded ? (
-          <CardList items={filteredItems} client={client} />
+          <CardList items={items} client={client} />
         ) : (
           <div>Loading...</div>
         )}
