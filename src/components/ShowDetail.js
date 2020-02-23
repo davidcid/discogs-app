@@ -60,7 +60,7 @@ class ShowDetail extends React.Component {
 
         <Modal
           visible={visible}
-          title={item.name}
+          title={item.title}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
