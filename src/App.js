@@ -4,6 +4,7 @@ import Discojs from "discojs";
 import CardList from "./components/CardList";
 import SearchBox from "./components/SearchBox";
 import Pages from "./components/Pages";
+import Selector from "./components/Selector";
 
 const USER_TOKEN = "fvXFPOrRSVzEqLNkSWgvrGiRlLuCmEFQJQQVBKaN";
 const USER_KEY = "WwaXPmpRocIYWMWsQSxb";
@@ -26,16 +27,17 @@ class App extends Component {
       searchfield: "",
       page: 1,
       totalPages: 0,
-      client: client
+      client: client,
+      searchType: "artist"
     };
   }
 
   componentDidMount() {
     console.log("componentDidMount");
-    this.onSearch(this.state.searchfield, 1);
+    this.onSearch(this.state.type, this.state.searchfield, 1);
   }
 
-  onSearch = (searchString, page) => {
+  onSearch = (type, searchString, page) => {
     console.log("onSearh");
 
     const paginationOpt = {
@@ -44,24 +46,29 @@ class App extends Component {
     };
 
     client
-      .searchDatabase({ type: "artist", query: searchString }, paginationOpt)
+      .searchDatabase({ type: type, query: searchString }, paginationOpt)
       .then(res => {
         this.setState({
           isLoaded: true,
           items: res.results,
           totalPages: res.pagination.pages,
           page: page,
-          searchfield: searchString
+          searchfield: searchString,
+          searchType: type
         });
       });
   };
 
   onPageChange = newPage => {
-    this.onSearch(this.state.searchfield, newPage);
+    this.onSearch(this.state.type, this.state.searchfield, newPage);
   };
 
   onSearchBox = event => {
-    this.onSearch(event, 1);
+    this.onSearch(this.state.type, event, 1);
+  };
+
+  onSelectorChange = event => {
+    this.onSearch(event, this.state.searchfield, 1);
   };
 
   render() {
@@ -80,6 +87,10 @@ class App extends Component {
     return (
       <div className="App">
         <SearchBox onSearch={this.onSearchBox} />
+        <Selector
+          onChange={this.onSelectorChange}
+          type={this.state.searchType}
+        />
         <Pages
           page={page}
           totalPages={totalPages}

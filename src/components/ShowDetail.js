@@ -11,7 +11,7 @@ class ShowDetail extends React.Component {
   };
 
   showModal = () => {
-    this.searchTest();
+    this.modalSearch();
     this.setState({
       visible: true
     });
@@ -21,7 +21,7 @@ class ShowDetail extends React.Component {
     this.setState({ visible: false, isLoaded: false });
   };
 
-  searchTest = () => {
+  modalSearch = () => {
     this.props.client
       .getArtist(this.props.id)
       .then(res => {
