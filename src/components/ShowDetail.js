@@ -1,6 +1,8 @@
 import React from "react";
 import { Modal, Button } from "antd";
 import { Carousel } from "antd";
+import ShowArtistData from "./ShowArtistData";
+import ShowMasterData from "./ShowMasterData";
 import "./ShowDetail.css";
 
 class ShowDetail extends React.Component {
@@ -10,30 +12,38 @@ class ShowDetail extends React.Component {
     isLoaded: false
   };
 
-  showModal = () => {
-    this.modalSearch();
-    this.setState({
-      visible: true
-    });
-  };
-
   handleCancel = () => {
     this.setState({ visible: false, isLoaded: false });
   };
 
   modalSearch = () => {
-    this.props.client
-      .getArtist(this.props.id)
-      .then(res => {
-        this.setState({
-          item: res,
-          isLoaded: true
-        });
-        console.log(res);
-      })
-      .then(() => {
-        console.log(this.state.item.images[0].uri);
-      });
+    this.props.type === "artist"
+      ? this.props.client
+          .getArtist(this.props.id)
+          .then(res => {
+            this.setState({
+              item: res,
+              isLoaded: true,
+              visible: true
+            });
+            // console.log(res);
+          })
+          .catch(error => {
+            console.log("There was an error with the request: " + error);
+          })
+      : this.props.client
+          .getMaster(this.props.id)
+          .then(res => {
+            this.setState({
+              item: res,
+              isLoaded: true,
+              visible: true
+            });
+            console.log(res);
+          })
+          .catch(error => {
+            console.log("There was an error with the request: " + error);
+          });
   };
 
   render() {
@@ -42,7 +52,7 @@ class ShowDetail extends React.Component {
       <div>
         <Button
           type="primary"
-          onClick={this.showModal}
+          onClick={this.modalSearch}
           style={{ marginTop: 25 }}
         >
           View Detail
@@ -77,23 +87,11 @@ class ShowDetail extends React.Component {
                   );
                 })}
               </Carousel>
-
-              <h4>Real name: </h4>
-              <p>{item.realname}</p>
-              <h4>Profile:</h4>
-              <p>{item.profile}</p>
-              <h4>More Information:</h4>
-              <ul>
-                {item.urls.map(url => {
-                  return (
-                    <li key={item.id}>
-                      <a href={url} target="_blank" rel="noopener noreferrer">
-                        {url}
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
+              {this.props.type === "artist" ? (
+                <ShowArtistData data={this.state.item} />
+              ) : (
+                <ShowMasterData data={this.state.item} />
+              )}
             </div>
           ) : (
             <div className="content">

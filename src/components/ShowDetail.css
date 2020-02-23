@@ -1,10 +1,11 @@
 .ant-carousel .slick-slide {
-  height: 150px;
-  line-height: 150px;
+  height: 200px;
+  line-height: 200px;
   overflow: hidden;
 }
 
 .artist-image {
   margin: 0 auto;
-  object-fit: scale-down;
+  object-fit: cover;
+  width: 200px;
 }
