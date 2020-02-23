@@ -4,7 +4,7 @@ import { Pagination } from "antd";
 class Pages extends Component {
   render() {
     return (
-      <div style={{ margin: 20 }}>
+      <div style={{ marginTop: 50, marginBottom: 20 }}>
         <Pagination
           current={this.props.page}
           total={this.props.totalPages}

@@ -6,5 +6,5 @@
 
 .artist-image {
   margin: 0 auto;
-  width: 50%;
+  object-fit: scale-down;
 }

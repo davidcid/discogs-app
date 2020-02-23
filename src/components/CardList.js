@@ -6,6 +6,7 @@ const CardList = ({ items, client }) => {
   return (
     <div className="cardlist">
       {items.map((item, i) => {
+        console.log(item);
         return (
           <CardItem
             title={items[i].title}

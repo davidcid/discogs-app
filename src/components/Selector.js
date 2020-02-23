@@ -6,11 +6,11 @@ class Selector extends Component {
     value: this.props.type
   };
 
-  onChange = e => {
+  onChange = event => {
     this.setState({
-      value: e.target.value
+      value: event.target.value
     });
-    this.props.onChange(e.target.value);
+    this.props.onChange(event.target.value);
   };
 
   render() {

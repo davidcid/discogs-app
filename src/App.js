@@ -27,22 +27,22 @@ class App extends Component {
       searchfield: "",
       page: 1,
       totalPages: 0,
-      client: client,
+      client: client, // required by Discojs
       searchType: "artist"
     };
   }
 
   componentDidMount() {
-    console.log("componentDidMount");
     this.onSearch(this.state.type, this.state.searchfield, 1);
   }
 
+  // Call the database and throw an error if fails
   onSearch = (type, searchString, page) => {
-    console.log("onSearh");
+    this.setState({ isLoaded: false });
 
     const paginationOpt = {
       page: page,
-      perPage: 26
+      perPage: 24
     };
 
     client
@@ -56,34 +56,28 @@ class App extends Component {
           searchfield: searchString,
           searchType: type
         });
+      })
+      .catch(error => {
+        console.log("There was an error with the request: " + error.message);
       });
   };
 
   onPageChange = newPage => {
     this.onSearch(this.state.type, this.state.searchfield, newPage);
+    console.log(this.state.searchType);
   };
 
-  onSearchBox = event => {
-    this.onSearch(this.state.type, event, 1);
+  onSearchBox = newSearch => {
+    this.onSearch(this.state.searchType, newSearch, 1);
   };
 
-  onSelectorChange = event => {
-    this.onSearch(event, this.state.searchfield, 1);
+  onSelectorChange = newType => {
+    this.onSearch(newType, this.state.searchfield, 1);
   };
 
   render() {
-    console.log("render App");
-    const {
-      isLoaded,
-      items,
-      searchfield,
-      page,
-      totalPages,
-      client
-    } = this.state;
-    const filteredItems = items.filter(item => {
-      return item.title.toLowerCase().includes(searchfield.toLowerCase());
-    });
+    const { isLoaded, items, page, totalPages, client } = this.state;
+
     return (
       <div className="App">
         <SearchBox onSearch={this.onSearchBox} />
@@ -97,7 +91,7 @@ class App extends Component {
           onPageChange={this.onPageChange}
         />
         {isLoaded ? (
-          <CardList items={filteredItems} client={client} />
+          <CardList items={items} client={client} />
         ) : (
           <div>Loading...</div>
         )}

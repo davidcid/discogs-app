@@ -5,11 +5,11 @@ const { Search } = Input;
 
 const SearchBox = ({ onSearch }) => {
   return (
-    <div style={{ margin: 25 }}>
+    <div style={{ marginTop: 25, marginBottom: 10 }}>
       <Search
         placeholder="search by artist, album or both"
         onSearch={onSearch}
-        style={{ maxWidth: 400 }}
+        style={{ maxWidth: 340, padding: 0 }}
       />
     </div>
   );
