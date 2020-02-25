@@ -3,6 +3,7 @@ import { Modal, Button } from "antd";
 import { Carousel } from "antd";
 import ShowArtistData from "./ShowArtistData";
 import ShowMasterData from "./ShowMasterData";
+import AddToCollection from "./AddToCollection";
 import "./ShowDetail.css";
 
 class ShowDetail extends React.Component {
@@ -14,6 +15,10 @@ class ShowDetail extends React.Component {
 
   handleCancel = () => {
     this.setState({ visible: false, isLoaded: false });
+  };
+
+  addToCollection = e => {
+    console.log(this.props.type);
   };
 
   modalSearch = () => {
@@ -57,6 +62,7 @@ class ShowDetail extends React.Component {
         >
           View Detail
         </Button>
+        <AddToCollection addToCollection={this.addToCollection} />
 
         <Modal
           visible={visible}
