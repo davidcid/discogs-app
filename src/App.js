@@ -5,6 +5,7 @@ import CardList from "./components/CardList";
 import SearchBox from "./components/SearchBox";
 import Pages from "./components/Pages";
 import Selector from "./components/Selector";
+import Collection from "./components/Collection";
 
 const USER_TOKEN = "fvXFPOrRSVzEqLNkSWgvrGiRlLuCmEFQJQQVBKaN";
 const USER_KEY = "WwaXPmpRocIYWMWsQSxb";
@@ -116,6 +117,7 @@ class App extends Component {
           totalPages={totalPages}
           onPageChange={this.onPageChange}
         />
+        <Collection collection={collection} />
 
         {isLoaded ? (
           <CardList
