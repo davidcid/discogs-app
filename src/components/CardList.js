@@ -11,11 +11,9 @@ class CardList extends React.Component {
 
   render() {
     const { items, client } = this.props;
-    console.log(this.props.collection);
     return (
       <div className="cardlist">
         {items.map((item, i) => {
-          // console.log(item);
           return (
             <CardItem
               title={item.title}

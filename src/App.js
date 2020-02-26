@@ -77,7 +77,6 @@ class App extends Component {
   };
 
   removeFromCollection = id => {
-    console.log("eliminando " + id);
     this.setState(state => {
       const collection = state.collection.filter(item => item !== id);
       return { collection };
@@ -85,10 +84,10 @@ class App extends Component {
   };
 
   addToCollection = id => {
-    console.log("añadiendo " + id);
-    this.setState(state => {
-      const collection = state.collection.concat(id);
-      return { collection };
+    const itemToAdd = this.state.items.find(element => element.id === id);
+    // console.log(itemToAdd);
+    this.setState({
+      collection: [...this.state.collection, id]
     });
   };
 
@@ -111,12 +110,13 @@ class App extends Component {
           type={searchType}
         />
 
+        <Collection collection={collection} client={client} items={items} />
+
         <Pages
           page={page}
           totalPages={totalPages}
           onPageChange={this.onPageChange}
         />
-        <Collection collection={collection} />
 
         {isLoaded ? (
           <CardList

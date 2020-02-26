@@ -4,7 +4,6 @@ import Selector from "./Selector";
 import Logo from "../assets/images/logo.png";
 
 const Navbar = ({ onSearchBox, onSelectorChange, type }) => {
-  console.log("type: " + type);
   return (
     <nav
       style={{
