@@ -15,9 +15,17 @@ class Selector extends Component {
 
   render() {
     return (
-      <Radio.Group onChange={this.onChange} value={this.state.value}>
-        <Radio value={"artist"}>Artist</Radio>
-        <Radio value={"master"}>Album</Radio>
+      <Radio.Group
+        onChange={this.onChange}
+        value={this.state.value}
+        style={{ marginTop: 10 }}
+      >
+        <Radio value={"artist"} style={{ color: "#ffffff" }}>
+          Artist
+        </Radio>
+        <Radio value={"master"} style={{ color: "#ffffff" }}>
+          Album
+        </Radio>
       </Radio.Group>
     );
   }
