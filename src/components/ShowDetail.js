@@ -50,11 +50,7 @@ class ShowDetail extends React.Component {
     const { visible, loading, item, isLoaded } = this.state;
     return (
       <div>
-        <Button
-          type="primary"
-          onClick={this.modalSearch}
-          style={{ marginTop: 25 }}
-        >
+        <Button type="primary" onClick={this.modalSearch}>
           View Detail
         </Button>
 
