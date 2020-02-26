@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import "./App.css";
 import Discojs from "discojs";
 import CardList from "./components/CardList";
-import SearchBox from "./components/SearchBox";
 import Pages from "./components/Pages";
-import Selector from "./components/Selector";
 import Collection from "./components/Collection";
+import Navbar from "./components/Navbar";
 
 const USER_TOKEN = "fvXFPOrRSVzEqLNkSWgvrGiRlLuCmEFQJQQVBKaN";
 const USER_KEY = "WwaXPmpRocIYWMWsQSxb";
@@ -100,16 +99,18 @@ class App extends Component {
       page,
       totalPages,
       client,
-      collection
+      collection,
+      searchType
     } = this.state;
 
     return (
       <div className="App">
-        <SearchBox onSearch={this.onSearchBox} />
-        <Selector
-          onChange={this.onSelectorChange}
-          type={this.state.searchType}
+        <Navbar
+          onSearchBox={this.onSearchBox}
+          onSelectorChange={this.onSelectorChange}
+          type={searchType}
         />
+
         <Pages
           page={page}
           totalPages={totalPages}
