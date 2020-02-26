@@ -11,6 +11,8 @@ const USER_KEY = "WwaXPmpRocIYWMWsQSxb";
 const USER_SECRET = "AIjlNGAEjBHzqEBfKOgMqkBjCpCCbTIw";
 const USER_AGENT = "discogs-app/0.0.1";
 
+let itemsInCollection = [];
+
 const client = new Discojs({
   userAgent: USER_AGENT,
   userToken: USER_TOKEN,
@@ -65,7 +67,6 @@ class App extends Component {
 
   onPageChange = newPage => {
     this.onSearch(this.state.type, this.state.searchfield, newPage);
-    console.log(this.state.searchType);
   };
 
   onSearchBox = newSearch => {
@@ -77,6 +78,11 @@ class App extends Component {
   };
 
   removeFromCollection = id => {
+    for (let i = 0; i < itemsInCollection.length; i++) {
+      if (itemsInCollection[i].id === id) {
+        itemsInCollection.splice(i, 1);
+      }
+    }
     this.setState(state => {
       const collection = state.collection.filter(item => item !== id);
       return { collection };
@@ -84,8 +90,8 @@ class App extends Component {
   };
 
   addToCollection = id => {
-    const itemToAdd = this.state.items.find(element => element.id === id);
-    // console.log(itemToAdd);
+    const filteredItem = this.state.items.filter(item => item.id === id);
+    itemsInCollection.push(filteredItem[0]);
     this.setState({
       collection: [...this.state.collection, id]
     });
@@ -110,7 +116,11 @@ class App extends Component {
           type={searchType}
         />
 
-        <Collection collection={collection} client={client} items={items} />
+        <Collection
+          collection={itemsInCollection}
+          client={client}
+          items={items}
+        />
 
         <Pages
           page={page}
