@@ -79,7 +79,6 @@ class App extends Component {
 
   removeFromCollection = id => {
     console.log("eliminando " + id);
-    console.log(this.state.collection);
     this.setState(state => {
       const collection = state.collection.filter(item => item !== id);
       return { collection };
@@ -88,7 +87,6 @@ class App extends Component {
 
   addToCollection = id => {
     console.log("añadiendo " + id);
-    console.log(this.state.collection);
     this.setState(state => {
       const collection = state.collection.concat(id);
       return { collection };

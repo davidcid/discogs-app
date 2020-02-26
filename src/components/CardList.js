@@ -3,21 +3,15 @@ import CardItem from "./CardItem";
 import "./CardList.css";
 
 class CardList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      collection: this.props.collection
-    };
-  }
-
   handleCollection = item => {
-    this.state.collection.includes(item)
+    this.props.collection.includes(item)
       ? this.props.removeFromCollection(item)
       : this.props.addToCollection(item);
   };
 
   render() {
     const { items, client } = this.props;
+    console.log(this.props.collection);
     return (
       <div className="cardlist">
         {items.map((item, i) => {
@@ -32,7 +26,7 @@ class CardList extends React.Component {
               client={client}
               id={item.id}
               type={item.type}
-              onCollection={this.state.collection.includes(item.id)}
+              onCollection={this.props.collection.includes(item.id)}
               modifyCollection={this.handleCollection}
             />
           );
