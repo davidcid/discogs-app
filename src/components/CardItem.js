@@ -7,19 +7,15 @@ class CardItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      onCollection: false
+      onCollection: this.props.onCollection
     };
   }
-
-  handleClick = () => {
-    console.log("you are clicking " + this.props.title);
-  };
 
   addToCollection = () => {
     this.state.onCollection
       ? this.setState({ onCollection: false })
       : this.setState({ onCollection: true });
-    console.log(this.state.onCollection);
+    this.props.modifyCollection(this.props.id);
   };
 
   render() {
@@ -33,7 +29,6 @@ class CardItem extends React.Component {
             margin: 15,
             borderRadius: 8
           }}
-          onClick={this.handleClick}
         >
           <img src={this.props.thumb} alt={this.props.title} />
           <div
@@ -49,7 +44,6 @@ class CardItem extends React.Component {
               client={this.props.client}
               id={this.props.id}
               type={this.props.type}
-              onCollection={this.props.onCollection}
             />
             <AddToCollection
               addToCollection={this.addToCollection}

@@ -28,7 +28,8 @@ class App extends Component {
       page: 1,
       totalPages: 0,
       client: client, // required by Discojs
-      searchType: "artist"
+      searchType: "artist",
+      collection: [365860, 12596, 11136, 11879]
     };
   }
 
@@ -75,8 +76,33 @@ class App extends Component {
     this.onSearch(newType, this.state.searchfield, 1);
   };
 
+  removeFromCollection = id => {
+    console.log("eliminando " + id);
+    console.log(this.state.collection);
+    this.setState(state => {
+      const collection = state.collection.filter(item => item !== id);
+      return { collection };
+    });
+  };
+
+  addToCollection = id => {
+    console.log("añadiendo " + id);
+    console.log(this.state.collection);
+    this.setState(state => {
+      const collection = state.collection.concat(id);
+      return { collection };
+    });
+  };
+
   render() {
-    const { isLoaded, items, page, totalPages, client } = this.state;
+    const {
+      isLoaded,
+      items,
+      page,
+      totalPages,
+      client,
+      collection
+    } = this.state;
 
     return (
       <div className="App">
@@ -90,8 +116,15 @@ class App extends Component {
           totalPages={totalPages}
           onPageChange={this.onPageChange}
         />
+
         {isLoaded ? (
-          <CardList items={items} client={client} />
+          <CardList
+            items={items}
+            client={client}
+            collection={collection}
+            removeFromCollection={this.removeFromCollection}
+            addToCollection={this.addToCollection}
+          />
         ) : (
           <div>Loading...</div>
         )}
