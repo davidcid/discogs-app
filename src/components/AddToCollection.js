@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 
 class AddToCollection extends React.Component {
   render() {
@@ -25,7 +25,11 @@ class AddToCollection extends React.Component {
           </Button>
         ));
 
-    return <div>{button}</div>;
+    return (
+      <div>
+        <Tooltip title="Add this item to your collection">{button}</Tooltip>
+      </div>
+    );
   }
 }
 

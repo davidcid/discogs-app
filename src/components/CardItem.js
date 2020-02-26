@@ -25,12 +25,12 @@ class CardItem extends React.Component {
           hoverable={true}
           title={this.props.title}
           style={{
-            width: 240,
+            width: 220,
             margin: 15,
             borderRadius: 8
           }}
         >
-          <img src={this.props.thumb} alt={this.props.title} />
+          <img src={this.props.thumb} alt={this.props.title} width="100%" />
           <div
             className="buttons"
             style={{
@@ -44,6 +44,8 @@ class CardItem extends React.Component {
               client={this.props.client}
               id={this.props.id}
               type={this.props.type}
+              addToCollection={this.addToCollection}
+              onCollection={this.state.onCollection}
             />
             <AddToCollection
               addToCollection={this.addToCollection}

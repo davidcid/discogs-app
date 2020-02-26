@@ -4,6 +4,7 @@ import { Carousel } from "antd";
 import ShowArtistData from "./ShowArtistData";
 import ShowMasterData from "./ShowMasterData";
 import "./ShowDetail.css";
+import AddToCollection from "./AddToCollection";
 
 class ShowDetail extends React.Component {
   state = {
@@ -47,7 +48,7 @@ class ShowDetail extends React.Component {
   };
 
   render() {
-    const { visible, loading, item, isLoaded } = this.state;
+    const { visible, item, isLoaded } = this.state;
     return (
       <div>
         <Button type="primary" onClick={this.modalSearch}>
@@ -60,12 +61,10 @@ class ShowDetail extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
-            <Button key="back" onClick={this.handleCancel}>
-              Return
-            </Button>,
-            <Button key="submit" type="primary" loading={loading}>
-              Submit
-            </Button>
+            <AddToCollection
+              addToCollection={this.props.addToCollection}
+              onCollection={this.props.onCollection}
+            />
           ]}
         >
           {isLoaded ? (
