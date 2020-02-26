@@ -30,7 +30,7 @@ class App extends Component {
       totalPages: 0,
       client: client, // required by Discojs
       searchType: "artist",
-      collection: [365860, 12596, 11136, 11879]
+      collection: []
     };
   }
 
