@@ -27,7 +27,6 @@ class ShowDetail extends React.Component {
               isLoaded: true,
               visible: true
             });
-            // console.log(res);
           })
           .catch(error => {
             console.log("There was an error with the request: " + error);
@@ -58,7 +57,6 @@ class ShowDetail extends React.Component {
         <Modal
           visible={visible}
           title={item.title}
-          onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
             <AddToCollection

@@ -116,11 +116,7 @@ class App extends Component {
           type={searchType}
         />
 
-        <Collection
-          collection={itemsInCollection}
-          client={client}
-          items={items}
-        />
+        <Collection collection={itemsInCollection} />
 
         <Pages
           page={page}

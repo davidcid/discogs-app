@@ -2,10 +2,6 @@ import React from "react";
 import "./Collection.css";
 
 class Collection extends React.Component {
-  hideCollection = () => {
-    console.log("it works!");
-  };
-
   render() {
     return (
       <div className="collection-box">
