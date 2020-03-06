@@ -1,12 +1,12 @@
 import React from "react";
 
-class ShowMasterData extends React.Component {
-  getGenres = () => {
+const ShowMasterData = ({ data }) => {
+  const getGenres = () => {
     let genres = [];
-    if (this.props.data.genres === undefined) {
+    if (data.genres === undefined) {
       return "no data";
     } else {
-      this.props.data.genres.map(genre => {
+      data.genres.map(genre => {
         genres.push(genre);
         return genres[0];
       });
@@ -14,12 +14,12 @@ class ShowMasterData extends React.Component {
     }
   };
 
-  getStyles = () => {
+  const getStyles = () => {
     let styles = [];
-    if (this.props.data.styles === undefined) {
+    if (data.styles === undefined) {
       return "no data";
     } else {
-      this.props.data.styles.map(style => {
+      data.styles.map(style => {
         styles.push(style);
         return styles[0];
       });
@@ -27,30 +27,28 @@ class ShowMasterData extends React.Component {
     }
   };
 
-  render() {
-    return (
-      <div>
-        <div className="other-data">
-          <h4>Year: </h4>
-          <p>{this.props.data.year}</p>
-          <h4>Genres: </h4>
-          <p>{this.getGenres()}</p>
-          <h4>Styles: </h4>
-          <p>{this.getStyles()}</p>
-          <h4>Tracklist: </h4>
-          <ul>
-            {this.props.data.tracklist.map(track => {
-              return (
-                <li style={{ listStyle: "none" }}>
-                  {track.position}. {track.title} ({track.duration})
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+  return (
+    <div>
+      <div className="other-data">
+        <h4>Year: </h4>
+        <p>{data.year}</p>
+        <h4>Genres: </h4>
+        <p>{getGenres()}</p>
+        <h4>Styles: </h4>
+        <p>{getStyles()}</p>
+        <h4>Tracklist: </h4>
+        <ul>
+          {data.tracklist.map(track => {
+            return (
+              <li style={{ listStyle: "none" }}>
+                {track.position}. {track.title} ({track.duration})
+              </li>
+            );
+          })}
+        </ul>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default ShowMasterData;

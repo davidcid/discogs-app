@@ -2,36 +2,37 @@ import React from "react";
 import CardItem from "./CardItem";
 import "./CardList.css";
 
-class CardList extends React.Component {
-  handleCollection = item => {
-    this.props.collection.includes(item)
-      ? this.props.removeFromCollection(item)
-      : this.props.addToCollection(item);
+const CardList = ({
+  items,
+  client,
+  collection,
+  removeFromCollection,
+  addToCollection
+}) => {
+  const handleCollection = item => {
+    collection.includes(item)
+      ? removeFromCollection(item)
+      : addToCollection(item);
   };
 
-  render() {
-    const { items, client } = this.props;
-    return (
-      <div className="cardlist">
-        {items.map((item, i) => {
-          return (
-            <CardItem
-              title={item.title}
-              key={item.id}
-              year={item.year}
-              country={item.country}
-              thumb={item.thumb}
-              client={client}
-              id={item.id}
-              type={item.type}
-              onCollection={this.props.collection.includes(item.id)}
-              modifyCollection={this.handleCollection}
-            />
-          );
-        })}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="cardlist">
+      {items.map((item, i) => {
+        return (
+          <CardItem
+            title={item.title}
+            key={item.id}
+            thumb={item.thumb}
+            client={client}
+            id={item.id}
+            type={item.type}
+            onCollection={collection.includes(item.id)}
+            modifyCollection={handleCollection}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 export default CardList;
